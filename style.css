@@ -17,7 +17,7 @@ body {
 
 .col {
    float: left;
-   margin-left: 20px;
+   margin-left: 18px;
    width: 60px;
    /*background: rgb(255, 150, 150);*/
 }
@@ -51,6 +51,6 @@ body {
 #score-text {
    text-align: center;
    background: rgb(113, 81, 188);
-   font-size: 24;
+   font-size: 22;
    font-weight: 4;
 }
