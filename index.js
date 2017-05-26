@@ -16,7 +16,7 @@ Ball.prototype.run = function(dt) {
 Ball.prototype.draw = function(context) {
    context.beginPath();
    context.fillStyle = "#00ff00";
-   context.rect(this.x, this.y, this.width, this.width);
+   context.rect(this.x-this.width/2, this.y-this.width/2, this.width, this.width);
    context.fill();  
 }
 
@@ -45,12 +45,12 @@ Player.prototype.verifyColision = function(ball) {
    if((ball.y+ball.width/2) < this.y) { return false; }
    if((ball.y-ball.width/2) > (this.y + this.len)) { return false; }
    
-   console.log('No collistion by out-bounds');
+   //console.log('No collistion by out-bounds');
 
    /* Ball collider is a square */
    if(Math.abs(ball.x-this.x + 5) > ball.width/2) { return false; }
 
-   console.log('No Collision yet');
+   //console.log('No Collision yet');
 
    return true;
 }
@@ -61,7 +61,6 @@ Player.prototype.draw = function(context) {
    context.rect(this.x, this.y, 5, this.width);
    context.fill();  
 }
-
 
 function GameField(x0, y0, width, height) {
    this.x0 = x0;
@@ -74,8 +73,8 @@ function GameField(x0, y0, width, height) {
 }
 
 GameField.prototype.verifyCollision = function(ball) {
-   if(ball.y - ball.width/2 <= this.y) { return true; }
-   if(ball.y + ball.width/2 >= this.y) { return true; }
+   if((ball.y - ball.width/2) <= this.y0) { return true; }
+   if((ball.y + ball.width/2) >= (this.y0+this.height)) { return true; }
 
    return false; 
 }
@@ -98,7 +97,7 @@ GameField.prototype.run = function(dt) {
 
 GameField.prototype.draw = function(context) {
 
-   context.fillStyle = 'rgba(0, 0, 0, 0.25)';
+   context.fillStyle = 'rgba(0, 0, 0, 1.0)';
    context.fillRect(0, 0, this.width, this.height);
 
    this.player1.draw(context);
@@ -153,7 +152,8 @@ function initGameControl() {
       if(!gameStarted) {
          gameStarted = true;
          timerId = setInterval(update, FRAME_TIME);
-         game.ball.vx = 100;
+         // game.ball.vx = 100;
+         game.ball.vy = 100;
       }
    });
 
