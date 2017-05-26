@@ -6,4 +6,4 @@ The gamefield was implemented over canvas HTML5.
 
 ![alt text](/pong.png "Pong Screenshot")
 
-Try at: [Pong Game]:(https://filipecalasans.github.io/Pong/)
+Try at: [Pong Game](https://filipecalasans.github.io/Pong/)
