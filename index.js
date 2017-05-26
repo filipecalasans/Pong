@@ -48,7 +48,7 @@ Player.prototype.verifyColision = function(ball) {
    console.log('No collistion by out-bounds');
 
    /* Ball collider is a square */
-   if(Math.abs(ball.x-this.x) > ball.width/2) { return false; }
+   if(Math.abs(ball.x-this.x + 5) > ball.width/2) { return false; }
 
    console.log('No Collision yet');
 
