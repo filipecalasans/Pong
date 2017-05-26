@@ -93,7 +93,7 @@ GameField.prototype.run = function(dt) {
 
    this.player1.bound(0, this.height);
    this.player2.bound(0, this.height);
-   
+
    if(this.player1.verifyColision(this.ball) || 
       this.player2.verifyColision(this.ball)) {
       this.ball.vx = -this.ball.vx;
@@ -131,8 +131,8 @@ GameField.prototype.draw = function(context) {
 GameField.prototype.updateScore = function() {
 
    document.getElementById("score-text").innerText = 
-      "PLAYER 1 (" + this.player1.score + 
-      ") x PLAYER 2 ("+ this.player2.score + ")";
+       this.player1.score + 
+      " X "+ this.player2.score;
 }
 
 function update() {
