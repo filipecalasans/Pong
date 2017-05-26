@@ -39,6 +39,11 @@ Player.prototype.run = function(dt) {
    this.y += this.vel * dt;
 }
 
+Player.prototype.bound = function(ymin, ymax) {
+   if(this.y < ymin) { this.y = ymin }
+   if(this.y + this.width > ymax) { this.y = ymax - this.width; }
+}
+
 Player.prototype.verifyColision = function(ball) {
    
    if(!ball) { return false; }
@@ -85,6 +90,9 @@ GameField.prototype.run = function(dt) {
    this.ball.run(dt);
    this.player1.run(dt);
    this.player2.run(dt);
+
+   this.player1.bound(0, this.height);
+   this.player2.bound(0, this.height);
    
    if(this.player1.verifyColision(this.ball) || 
       this.player2.verifyColision(this.ball)) {
@@ -175,8 +183,6 @@ function initGameControl() {
          gameStarted = true;
          timerId = setInterval(update, FRAME_TIME);
          game.ball.reset();
-         this.player1.score = 0;
-         this.player2.score = 0;
       }
    });
 
@@ -185,6 +191,9 @@ function initGameControl() {
          gameStarted = false;
          clearTimeout(timerId);
          timerID = -1;
+         game.player1.score = 0;
+         game.player2.score = 0;
+         game.updateScore();
          game.ball.reset();
          update();
       }
