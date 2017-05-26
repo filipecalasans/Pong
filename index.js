@@ -23,8 +23,8 @@ Ball.prototype.draw = function(context) {
 Ball.prototype.reset = function() {
    this.x = this.initX;
    this.y = this.initY;
-   this.vx = 0;
-   this.vy = 0;
+   this.vx = Math.random() > 0.5 ? 200 : -200;
+   this.vy = Math.random() > 0.5 ? 200 : -200;
 }
 
 function Player(x, y, width, vel) {
@@ -32,6 +32,7 @@ function Player(x, y, width, vel) {
    this.y = y;
    this.width = width;
    this.vel = vel;
+   this.score = 0;
 }
 
 Player.prototype.run = function(dt) {
@@ -43,7 +44,7 @@ Player.prototype.verifyColision = function(ball) {
    if(!ball) { return false; }
 
    if((ball.y+ball.width/2) < this.y) { return false; }
-   if((ball.y-ball.width/2) > (this.y + this.len)) { return false; }
+   if((ball.y-ball.width/2) > (this.y + this.width)) { return false; }
    
    //console.log('No collistion by out-bounds');
 
@@ -93,6 +94,20 @@ GameField.prototype.run = function(dt) {
    if(this.verifyCollision(this.ball)) {
       this.ball.vy = -this.ball.vy;
    }
+
+   if(this.ball.x < this.ball.width/2) {
+         this.ball.reset();
+         update();
+         this.player2.score++;
+         this.updateScore();
+   }
+
+   else if(this.ball.x > this.width-this.ball.width/2) {
+         this.ball.reset();
+         update();
+         this.player1.score++;
+         this.updateScore();
+   }
 }
 
 GameField.prototype.draw = function(context) {
@@ -105,6 +120,13 @@ GameField.prototype.draw = function(context) {
    this.ball.draw(context);
 }
 
+GameField.prototype.updateScore = function() {
+
+   document.getElementById("score-text").innerText = 
+      "PLAYER 1 (" + this.player1.score + 
+      ") x PLAYER 2 ("+ this.player2.score + ")";
+}
+
 function update() {
 
    game.run(FRAME_TIME/1000.0);
@@ -114,7 +136,7 @@ function update() {
    /* draw elements */
    game.draw(ctx);
 
-   console.log("Running");
+   //console.log("Running");
 }
 
 let gameStarted = false;
@@ -140,6 +162,8 @@ window.onload = function() {
    game.player2 = p2;
    game.ball = ball;
 
+   game.ball.reset();
+
    initGameControl();
 
    update();
@@ -150,8 +174,9 @@ function initGameControl() {
       if(!gameStarted) {
          gameStarted = true;
          timerId = setInterval(update, FRAME_TIME);
-         // game.ball.vx = 100;
-         game.ball.vy = 100;
+         game.ball.reset();
+         this.player1.score = 0;
+         this.player2.score = 0;
       }
    });
 
@@ -167,16 +192,27 @@ function initGameControl() {
 
    document.querySelector("body").onkeyup = function(e) {
       game.player1.vel = 0;
+      game.player2.vel = 0;
    }
 
    document.querySelector("body").onkeydown = function(e) {
       var x = event.which || event.keyCode;
       var y = String.fromCharCode(x);
+      
       if(y === 'W') {
-         game.player1.vel = -200;
+         game.player1.vel = -400;
       }
+      
       if(y === 'S') {
-         game.player1.vel = 200;
+         game.player1.vel = 400;
+      }
+
+      if(x === 38) { //up
+         game.player2.vel = -400;
+      }
+
+      if(x === 40) { //down
+         game.player2.vel = 400;
       }
    }
 }
