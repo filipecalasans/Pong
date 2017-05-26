@@ -23,8 +23,8 @@ Ball.prototype.draw = function(context) {
 Ball.prototype.reset = function() {
    this.x = this.initX;
    this.y = this.initY;
-   this.vx = Math.random() > 0.5 ? 200 : -200;
-   this.vy = Math.random() > 0.5 ? 200 : -200;
+   this.vx = Math.random() > 0.5 ? 400 : -400;
+   this.vy = Math.random() > 0.5 ? 400 : -400;
 }
 
 function Player(x, y, width, vel) {
@@ -200,8 +200,16 @@ function initGameControl() {
    });
 
    document.querySelector("body").onkeyup = function(e) {
-      game.player1.vel = 0;
-      game.player2.vel = 0;
+      var x = event.which || event.keyCode;
+      var y = String.fromCharCode(x);
+       
+      if(y === 'W' || y === 'S') {
+         game.player1.vel = 0;
+      }
+      
+      if(x === 38 || x === 40) {
+         game.player2.vel = 0;
+      }      
    }
 
    document.querySelector("body").onkeydown = function(e) {
@@ -209,19 +217,19 @@ function initGameControl() {
       var y = String.fromCharCode(x);
       
       if(y === 'W') {
-         game.player1.vel = -400;
+         game.player1.vel = -500;
       }
       
       if(y === 'S') {
-         game.player1.vel = 400;
+         game.player1.vel = 500;
       }
 
       if(x === 38) { //up
-         game.player2.vel = -400;
+         game.player2.vel = -500;
       }
 
       if(x === 40) { //down
-         game.player2.vel = 400;
+         game.player2.vel = 500;
       }
    }
 }
