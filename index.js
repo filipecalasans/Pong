@@ -103,7 +103,6 @@ GameField.prototype.draw = function(context) {
    this.player1.draw(context);
    this.player2.draw(context);
    this.ball.draw(context);
-
 }
 
 function update() {
@@ -144,7 +143,6 @@ window.onload = function() {
    initGameControl();
 
    update();
-
 }
 
 function initGameControl() {
@@ -166,5 +164,20 @@ function initGameControl() {
          update();
       }
    });
+
+   document.querySelector("body").onkeyup = function(e) {
+      game.player1.vel = 0;
+   }
+
+   document.querySelector("body").onkeydown = function(e) {
+      var x = event.which || event.keyCode;
+      var y = String.fromCharCode(x);
+      if(y === 'W') {
+         game.player1.vel = -200;
+      }
+      if(y === 'S') {
+         game.player1.vel = 200;
+      }
+   }
 }
 
